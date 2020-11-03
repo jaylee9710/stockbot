@@ -1,0 +1,293 @@
+const scriptName = "stockbot";
+
+function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
+
+if(msg.indexOf("/주가 ")!=-1){
+    
+    var stockURL = Utils.getWebText("https://www.google.com/search?q=%EC%A3%BC%EA%B0%80"+msg.split(" ")[1]);
+    var priceTmp1 = stockURL.split("vWLAgc")[1].split("</span>")[0];
+    var price = priceTmp1.split(">")[1];
+    var currencyTmp1 = stockURL.split("T3Us2d")[1].split("</span")[0];
+    var currency = currencyTmp1.split("> ")[1];
+
+    var stockNameTmp1 = stockURL.split("oPhL2e")[2].split("</div>")[0];
+    var stockName = stockNameTmp1.split(">")[1];
+    var stockName = stockName.trim();
+    var stockName = stockName.replace('&amp:','&');
+
+    var incdecRateTmp = stockURL.split("qRSVye")[1].split("span jsname")[0];
+    var incdecRateTmp2 = incdecRateTmp.split("label=\"")[1].split("\">")[0];
+    var incdecRate = incdecRateTmp2.split("%")[0];
+    var incdec = incdecRateTmp2.split("%")[1];
+    incdecN = incdec == " 증가"?"▲":"▼";
+ 
+    replier.reply("실시간 " + stockName + " 시세\n" + price + " " + currency + " (" + incdecN + incdecRate + "% " + ")");
+}
+
+
+if(msg.indexOf("/stock ")!=-1){
+    
+    var stockURL = Utils.getWebText("https://www.google.com/search?q=%EC%A3%BC%EC%8B%9D%20%EC%B0%A8%ED%8A%B8"+msg.split(" ")[1]);
+    var priceTmp1 = stockURL.split("vWLAgc")[1].split("</span>")[0];
+    var price = priceTmp1.split(">")[1];
+    var currencyTmp1 = stockURL.split("T3Us2d")[1].split("</span")[0];
+    var currency = currencyTmp1.split("> ")[1];
+
+    var stockNameTmp1 = stockURL.split("oPhL2e")[2].split("</div>")[0];
+    var stockName = stockNameTmp1.split(">")[1];
+    var stockName = stockName.trim();
+    var stockName = stockName.replace('&amp:','&');
+
+    var incdecRateTmp = stockURL.split("qRSVye")[1].split("span jsname")[0];
+    var incdecRateTmp2 = incdecRateTmp.split("label=\"")[1].split("\">")[0];
+    var incdecRate = incdecRateTmp2.split("%")[0];
+    var incdec = incdecRateTmp2.split("%")[1];
+    incdecN = incdec == " 증가"?"▲":"▼";
+ 
+    replier.reply("실시간 " + stockName + " 시세\n" + price + " " + currency + " (" + incdecN + incdecRate + "% " + ")");
+}
+
+
+if(msg.indexOf("/한강물 온도")!=-1){
+    
+    var hanURL = Utils.getWebText("https://hangang.life/");
+    var hanTempT1 = hanURL.split("script async src")[1].split("</button>")[0];
+    var hanTempT2 = hanTempT1.split("temp")[1].split("button")[0];
+    var hanTemp = hanTempT2.split("<b>")[1].split("</b>")[0];
+    replier.reply("현재 한강물 온도는" + hanTemp +"입니다." + " (당신은 소중한 사람이에요)");
+}
+
+
+    if(msg.indexOf("/나스닥")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var nasdaq = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(6) > td.pid-14958-last").text();
+        var nasdaqRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(6) > td.bold.pid-14958-pcp.greenFont").text();
+        var nasdaqRateN = nasdaqRate.substr(1);
+        var incdec = nasdaqRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 나스닥 지수\n"+nasdaq+" ("+incdecN+nasdaqRateN+")");
+    }
+
+    if(msg.indexOf("/다우")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var dow = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(4) > td.pid-169-last").text();
+        var dowRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(4) > td.bold.greenFont.pid-169-pcp").text();
+        var dowRateN = dowRate.substr(1);
+        var incdec = dowRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 다우존스 지수\n"+dow+" ("+incdecN+dowRateN+")");
+    }
+
+    if(msg.indexOf("/다우존스")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var dow = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(4) > td.pid-169-last").text();
+        var dowRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(4) > td.bold.greenFont.pid-169-pcp").text();
+        var dowRateN = dowRate.substr(1);
+        var incdec = dowRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 다우존스 지수\n"+dow+" ("+incdecN+dowRateN+")");
+    }
+
+    if(msg.indexOf("/snp")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var snp = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(5) > td.pid-166-last").text();
+        var snpRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(5) > td.bold.greenFont.pid-166-pcp").text();
+        var snpRateN = snpRate.substr(1);
+        var incdec = snpRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 S&P500 지수\n"+snp+" ("+incdecN+snpRateN+")");
+    }
+
+    if(msg.indexOf("/에센피")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var snp = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(5) > td.pid-166-last").text();
+        var snpRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(5) > td.bold.greenFont.pid-166-pcp").text();
+        var snpRateN = snpRate.substr(1);
+        var incdec = snpRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 S&P500 지수\n"+snp+" ("+incdecN+snpRateN+")");
+    }
+
+    if(msg.indexOf("/러셀")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var rsl = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(7) > td.pid-170-last").text();
+        var rslRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(7) > td.bold.greenFont.pid-170-pcp").text();
+        var rslRateN = rslRate.substr(1);
+        var incdec = rslRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 러셀 지수\n"+rsl+" ("+incdecN+rslRateN+")");
+    }
+
+    if(msg.indexOf("/코스피")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var kospi = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(1) > td.pid-37426-last").text();
+        var kospiRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(1) > td.bold.pid-37426-pcp.greenFont").text();
+        var kospiRateN = kospiRate.substr(1);
+        var incdec = kospiRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 코스피 지수\n"+kospi+" ("+incdecN+kospiRateN+")");
+    }
+
+    if(msg.indexOf("/코스닥")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var kosdaq = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(3) > td.pid-38016-last").text();
+        var kosdaqRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(3) > td.bold.pid-38016-pcp.greenFont").text();
+        var kosdaqRateN = kosdaqRate.substr(1);
+        var incdec = kosdaqRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 코스닥 지수\n"+kosdaq+" ("+incdecN+kosdaqRateN+")");
+    }
+
+    if(msg.indexOf("/나선")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/indices-futures").get();
+        var nasdaqF = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(3) > td.pid-8874-last").text();
+        var nasdaqFRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(3) > td.bold.pid-8874-pcp.redFont").text();
+        var nasdaqFRateN = nasdaqFRate.substr(1);
+        var incdec = nasdaqFRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 나스닥 선물 지수\n"+nasdaqF+" ("+incdecN+nasdaqFRateN+")");
+    }
+
+    if(msg.indexOf("/금")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/commodities/metals").get();
+        var gold = indexURL.select("#pair_8830 > td.pid-8830-last").text();
+        var goldRate = indexURL.select("#pair_8830 > td.bold.pid-8830-pcp.greenFont").text();
+        var goldRateN = goldRate.substr(1);
+        var incdec = goldRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 금 선물 가격\n"+gold+" ("+incdecN+goldRateN+")");
+    }
+
+    if(msg.indexOf("/은")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/commodities/metals").get();
+        var silver = indexURL.select("#pair_8836 > td.pid-8836-last").text();
+        var silverRate = indexURL.select("#pair_8836 > td.bold.pid-8836-pcp.greenFont").text();
+        var silverRateN = silverRate.substr(1);
+        var incdec = silverRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 은 선물 가격\n"+silver+" ("+incdecN+silverRateN+")");
+    }
+
+    if(msg.indexOf("/오일")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/commodities/energy").get();
+        var oilWTI = indexURL.select("#pair_8849 > td.pid-8849-last").text();
+        var oilWTIRate = indexURL.select("#pair_8849 > td.bold.pid-8849-pcp.redFont").text();
+        var oilWTIRateN = oilWTIRate.substr(1);
+        var incdec = oilWTIRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 WTI유 선물 가격\n"+oilWTI+" ("+incdecN+oilWTIRateN+")");
+    }
+
+    if(msg.indexOf("/vix")!=-1){
+        
+        var indexURL = org.jsoup.Jsoup.connect("https://kr.investing.com/indices/major-indices").get();
+        var vix = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(8) > td.pid-44336-last").text();
+        var vixRate = indexURL.select("#cross_rates_container > table > tbody > tr:nth-child(8) > td.bold.greenFont.pid-44336-pcp").text();
+        var vixRateN = vixRate.substr(1);
+        var incdec = vixRate.substr(0,1);
+        incdecN = incdec == "+"?"▲":"▼";
+
+        replier.reply("실시간 뉴욕시장 변동성 지수\n"+vix+" ("+incdecN+vixRateN+")");
+    }
+
+
+    if(msg.indexOf("/지수")!=-1){
+        
+        replier.reply("<지원하는 주요 지수 및 원자재>\n"+
+        "나스닥, 나스닥 선물, 다우, 러셀\n"+
+        "S&P500, 코스피, 코스닥, VIX\n"+
+        "금, 은, WTI오일");
+    }
+
+if(msg.indexOf("/코인")!=-1){
+    
+    var upbitBTC = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-BTC").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var BTCt = JSON.parse(upbitBTC)[0].trade_price;
+    var BTC = commify(BTCt);
+
+    var upbitETH = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-ETH").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var ETH = JSON.parse(upbitETH)[0].trade_price;
+    var ETH = commify(ETH);
+
+    var upbitXRP = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-XRP").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var XRP = JSON.parse(upbitXRP)[0].trade_price;
+    var XRP = commify(XRP);
+
+    var upbitBCH = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-BCH").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var BCH = JSON.parse(upbitBCH)[0].trade_price;
+    var BCH = commify(BCH);
+
+    var upbitLINK = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-LINK").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var LINK = JSON.parse(upbitLINK)[0].trade_price;
+    var LINK = commify(LINK);
+
+    var upbitEOS = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-EOS").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var EOS = JSON.parse(upbitEOS)[0].trade_price;
+    var EOS = commify(EOS);
+
+    var upbitTRX = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-TRX").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var TRX = JSON.parse(upbitTRX)[0].trade_price;
+
+    var upbitXTZ = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-XTZ").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var XTZ = JSON.parse(upbitXTZ)[0].trade_price;
+    var XTZ = commify(XTZ);
+
+    var upbitBTT = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=KRW-BTT").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var BTT = JSON.parse(upbitBTT)[0].trade_price;
+
+    var upbitLUNA = org.jsoup.Jsoup.connect("https://api.upbit.com/v1/ticker?markets=BTC-LUNA").ignoreContentType(true).ignoreHttpErrors(true).userAgent("Mozilla").get().text();
+    var LUNA = (JSON.parse(upbitLUNA)[0].trade_price)*BTC;
+    var LUNA = LUNA.toFixed(0);
+    var LUNA = commify(LUNA);
+
+    
+    replier.reply("실시간 업비트 기준\n\n"+
+    "비트코인 : " + BTC + "원\n"+
+    "이더리움 : " + ETH + "원\n"+
+    "리플 : " + XRP + "원\n"+
+    "비트코인캐시 : " + BCH + "원\n"+
+    "체인링크 : " + LINK + "원\n"+
+    "이오스 : " + EOS + "원\n"+
+    "트론 : " + TRX + "원\n"+
+    "테조스 : " + XTZ + "원\n"+
+    "브뜨뜨 : " + BTT + "원\n"+
+    "루나 : " + LUNA + "원");
+}
+
+}
+
+function commify(n) {
+    var reg = /(^[+-]?\d+)(\d{3})/;   // 정규식
+    n += '';                          // 숫자를 문자열로 변환
+  
+    while (reg.test(n))
+      n = n.replace(reg, '$1' + ',' + '$2');
+  
+    return n;
+  }
+
+}
