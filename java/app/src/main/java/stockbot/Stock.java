@@ -41,7 +41,7 @@ public class Stock {
 
     public static StockInfo getStockInfo(String stockName) {
         try {
-            Document document = Jsoup.connect("https://www.google.com/search?q=%EC%A3%BC%EA%B0%80" + stockName)
+            Document document = Jsoup.connect("https://www.google.com/search?q=%EC%A3%BC%EA%B0%80 " + stockName)
                     .get();
             Element nameElement = document.select("div[class=oPhL2e]").first();
             if (nameElement == null) {

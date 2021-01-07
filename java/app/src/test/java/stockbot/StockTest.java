@@ -32,6 +32,12 @@ public class StockTest {
     }
 
     @Test
+    public void testGetStockPriceWithWrongCode() {
+        Integer price = Stock.getStockPrice("wrongcode");
+        assertNull(price);
+    }
+
+    @Test
     public void testGetStockPriceWithQuery1() {
         Integer price = Stock.getStockPriceWithQuery("키움증권");
         assertNotNull(price);
@@ -67,6 +73,13 @@ public class StockTest {
     }
 
     @Test
+    public void testGetStockPrice6() {
+        Integer price = Stock.getStockPriceWithQuery("한온시스템");
+        assertNotNull(price);
+        assertTrue(price > 0);
+    }
+
+    @Test
     public void testGetStockPriceWithQueryPreferred() {
         Integer price = Stock.getStockPriceWithQuery("삼성전자우");
         assertNotNull(price);
@@ -81,7 +94,7 @@ public class StockTest {
     }
 
     @Test
-    public void testGetStockPriceWithQuery_wrong() {
+    public void testGetStockPriceWithQueryWithWrongName() {
         Integer price = Stock.getStockPriceWithQuery("주식아님");
         assertNull(price);
     }
