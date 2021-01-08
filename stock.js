@@ -97,6 +97,7 @@ function getLegacyGetStockPrice(name) {
 
 function generateResponse(stockName, price, currency, incdecRate) {
   let incdecN;
+  let incdecRateN;
   if (incdecRate == 0) {
     incdecN = " "
   } else if (incdecRate > 0) {
@@ -104,9 +105,11 @@ function generateResponse(stockName, price, currency, incdecRate) {
   } else {
     incdecN = "▼"
   }
+  
+  incdecRateN = Math.abs(incdecRate);
 
   return "실시간 " + stockName + " 시세\n"
-      + price + " " + currency + " (" + incdecN + incdecRate + "% " + ")";
+      + price + " " + currency + " (" + incdecN + incdecRateN + "% " + ")";
 }
 
 
